@@ -1,0 +1,16 @@
+<tr>
+                  <th class="views-field views-field-title"
+            Name  />
+                  <th class="views-field views-field-field-date-time-only" >
+            Time          </th>
+                  <th class="views-field views-field-field-meeting-address" >
+            Address          </th>
+                  <th class="views-field views-field-field-address-additional" >
+            Address additional info          </th>
+                  <th class="views-field views-field-field-extra-info" >
+            Additional meeting info          </th>
+                  <th class="views-field views-field-field-type-of-meeting" >
+            Open or Closed          </th>
+                  <th class="views-field views-field-field-meeting-type" >
+            Meeting type          </th>
+              </tr>

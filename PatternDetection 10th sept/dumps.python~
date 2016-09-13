@@ -1,0 +1,69 @@
+for onerecord in newlist:
+
+	for pattern in allPatterns:
+		if pattern.patString==onerecord.seqstring:
+			#break
+			target = open("testhtml.html", 'a')
+			withtags=initialPage[pattern.start:pattern.end]
+			tagsArray=strip_tags(withtags)
+			#bingo=RemoveHTMLTags(withtags)
+
+
+			'''numTime=0
+			numAddress=0
+			numDay=0
+			for taginfo in tagsArray:
+				'''if pattern.patString=="tr,$$td,td,td,td,td,td,td,td,$$":
+					print "taginfo:"+taginfo'''
+				#if numTime==0:
+				oldnum=numTime
+				numTime+=GetNumberOfTimes(taginfo)
+				if numTime and not oldnum==numTime:
+					tagsArray.remove(taginfo)
+			for taginfo in tagsArray:
+				oldnum=numAddress
+				numAddress+=GetNumberOfAddresses(taginfo)
+				if numAddress and not oldnum==numAddress:
+					tagsArray.remove(taginfo)
+						
+			for taginfo in tagsArray:	
+				'''if pattern.patString=="tr,$$td,td,td,td,td,td,td,td,$$":
+					print taginfo'''
+				numDay+=GetPresenceOfDays(taginfo)
+				if numDay:
+					tagsArray.remove(taginfo)
+			'''if pattern.patString=="tr,$$td,td,td,td,td,td,td,td,$$":
+				print "day:"+str(numDay)+"address:"+str(numAddress)+"time:"+str(numTime)
+				if numDay==1:
+					print initialPage[pattern.start:pattern.end]'''
+			if numTime==1 and numAddress==1 and numDay==1:
+				target.write(initialPage[pattern.start:pattern.end])
+				target.write("<br>")
+			else:
+				if pattern.patString=="tr,$$td,td,td,td,td,td,td,td,$$":
+					print "data:"+initialPage[pattern.start:pattern.end]
+					print numAddress
+					print numTime
+					print numDay'''
+								
+			'''bingo=withtags
+			notime=GetNumberOfTimes(bingo)
+			wotime=RemoveTimes(bingo)
+			noaddress=GetNumberOfAddresses(wotime)
+			print noaddress
+			woaddress=RemoveAddresses(wotime)
+
+			if notime==1 and noaddress>0 and GetPresenceOfDays(woaddress)>0 :
+						
+				target.write(initialPage[pattern.start:pattern.end])
+				target.write("<br>")
+			elif notime==1 and noaddress==0 and GetPresenceOfDays(woaddress)>=1:
+				#print "pattern:"+ pattern.patString	
+				#print "address missing"
+				FindInfoInParents(pattern.corNode,pattern.start)'''
+				#target.write(initialPage[pattern.start:pattern.end])
+				#target.write("<br>")
+			'''if notime==1 and noaddress==1 and GetPresenceOfDays(bingo)==0:	
+				#print initialPage[pattern.start:pattern.end]	
+				target.write(initialPage[pattern.start:pattern.end])
+				target.write("<br>")'''
