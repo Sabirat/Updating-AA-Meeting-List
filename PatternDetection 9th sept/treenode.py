@@ -97,7 +97,8 @@ def FindMeetingXY(pattern,iniPage,day,time,address):
 	souptext=soup.text
 	filtered_soup = filter(lambda x: x in string.printable, souptext)
 	
-	for e in browser.find_elements_by_xpath("//"+first_tag):#browser.find_elements_by_xpath(".//"+first_tag+"[contains(text(), \""+soup.text+"\")]"):
+	earr=browser.find_elements_by_xpath("//"+first_tag)
+	for e in earr[:]:#browser.find_elements_by_xpath(".//"+first_tag+"[contains(text(), \""+soup.text+"\")]"):
 		content=browser.execute_script("return arguments[0].textContent", e)
 		filtered_elemtext=filter(lambda x: x in string.printable, content)
 		filtered_elemtext="".join(filtered_elemtext.split())
@@ -109,7 +110,8 @@ def FindMeetingXY(pattern,iniPage,day,time,address):
 			mCity="Rochester, Minnesota"
 			mFtag=first_tag
 			mFulltext=pagesubstring
-			OneMeeting=MeetingInfo(day,time,address,mUrl,mCity,mFulltext,mFtag,mPos)
+			earr.remove(e)
+			OneMeeting=MeetingInfo(day,time,address,mUrl,mCity,mFulltext,mFtag,mPos,e.id)
 			#print OneMeeting.__dict__
 			#InsertMeeting(connection,OneMeeting)
 			#e.screenshot("/Screenshots/foo.png")
@@ -191,7 +193,7 @@ def FindFormWithDaysIfAvailable():
 				probable_day=option.get_attribute("value")
 				if probable_day.lower() in all_day:
 					day_arr.append(probable_day.lower())
-			print day_arr
+			#print day_arr
 			if len(day_arr)>0 and all(x in all_day for x in day_arr):
 				FormClass=FormInfo(indexofform,indexofdropdown)
 				return FormClass
@@ -219,6 +221,22 @@ def FindListWithDaysIfAvailable():
 	print indexlistarray		
 	return indexlistarray
 
+def FindRadiosWithDaysIfAvailable():
+	all_day=["sun","mon","tues","tue","wed","thu","fri","sat"]	
+	forms=browser.find_elements_by_tag_name("form")
+	indexofform=-1
+	for form in forms:
+		indexofform+=1
+		formtext=form.get_attribute("outerHTML").lower()
+		for oneday in all_day:
+			if oneday not in formtext:
+				print formtext
+				print oneday
+				return None
+	FormClass=FormInfo(indexofform,0)
+	return FormClass
+				
+	return None
 '''the last 3 parameters are passed beforehead if the pattern has missing information according to PD algo'''
 def ExtractMeetingInfo(mPattern,fulltext,mDay,mTime,mAddress):
 	if not mTime:	
@@ -227,11 +245,11 @@ def ExtractMeetingInfo(mPattern,fulltext,mDay,mTime,mAddress):
 		mAddress=GetMeetingAddress(RemoveHTMLTags(fulltext))
 	if not mDay:	
 		mDay=GetMeetingDay(RemoveHTMLTags(fulltext))
-	if mTime and mDay and mAddress:	
+	'''if mTime and mDay and mAddress:	
 		#print "Time:"+mTime+", Day:"+mDay+",Address:"+mAddress#+"text:"+RemoveHTMLTags(fulltext)
 		#print "outside function"+fulltext
-		mPos=FindMeetingXY(mPattern,fulltext,mDay,mTime,mAddress)
-	
+		mPos=FindMeetingXY(mPattern,fulltext,mDay,mTime,mAddress)'''
+	mPos=FindMeetingXY(mPattern,fulltext,mDay,mTime,mAddress)
 			
 
 '''this function mainly runs the pattern detection algorithm and call ExtractMeetingInfo() for each probable meeting pattern '''
@@ -274,7 +292,7 @@ def LoadPagesAndRunPD(dayInfo):
 	dcount=0
 	for onerecord in newlist:
 		for pattern in allPatterns:
-			if pattern.patString==onerecord.seqstring:
+			if pattern.patString==onerecord.seqstring and onerecord.tagnums>5:
 				#break
 				target = open("testhtml.html", 'a')
 				withtags=initialPage[pattern.start:pattern.end]
@@ -324,9 +342,10 @@ readMeetingURLs()
 
 '''loads all the meeting web pages, find out if dropdown/link of days are available, clicks through all of them'''
 for oneURL in meetingURLArr:
-	browser.get("http://aaminneapolis.org/meetings/?d=1&v=list")#("http://www.aadistrict1.org/page7.php")#("http://aaminneapolis.org/meetings/?d=any&v=list")#(oneURL.urlString)#"http://aaminneapolis.org/meetings/?d=any&v=list"
+	browser.get("http://www.aastpaul.org/?topic=8")#("http://aaminneapolis.org/meetings/?d=1&v=list")#("http://www.aadistrict1.org/page7.php")#("http://aaminneapolis.org/meetings/?d=any&v=list")#(oneURL.urlString)#"http://aaminneapolis.org/meetings/?d=any&v=list"
 	formfound=FindFormWithDaysIfAvailable()
 	listfound=FindListWithDaysIfAvailable()
+	radiofound=FindRadiosWithDaysIfAvailable()
 	if formfound:
 		forms=browser.find_elements_by_tag_name("form")
 		dropdowns=forms[formfound.formelement].find_elements_by_xpath("//select")
@@ -356,6 +375,14 @@ for oneURL in meetingURLArr:
 			except Exception as e:
 				print e
 				continue
+	elif len(browser.find_elements_by_tag_name("form"))>0:
+		beforeurl=browser.page_source
+		forms=browser.find_elements_by_tag_name("form")
+		lform=len(forms)
+		for i in range(0,lform):
+			browser.find_elements_by_tag_name("form")[i].submit()
+			LoadPagesAndRunPD(None)
+			browser.get(beforeurl)
 	else:
 		print "in else"
 		LoadPagesAndRunPD(None)

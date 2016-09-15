@@ -67,17 +67,34 @@ class MeetingInfo(object):
 	mDay=None
 	mTime=None
 	mAddress=None
-	mHTML=None
 	mURL=None
+	mCity=None
+	mHTML=None
 	mFirstTag=None
+	mPosition=None
+	mIntId=None
 	
-	def __init__(self, day,time,address,html,url,ftag):
+	def __init__(self, day,time,address,url,city,html,ftag,pos,intid):
 		self.mDay=day
 		self.mTime=time
 		self.mAddress=address
 		self.mHTML=html
 		self.mURL=url
+		self.mCity=city
+		self.mFirstTag=ftag
+		self.mPosition=pos
+		self.mIntId=intid
 		
+class Position(object):
+	x=-1
+	y=-1
+	w=-1
+	h=-1
+	def __init__(self, mx,my,mw,mh):
+		self.x=mx
+		self.y=my
+		self.w=mw
+		self.h=mh
 
 from HTMLParser import HTMLParser
 

@@ -72,8 +72,9 @@ class MeetingInfo(object):
 	mHTML=None
 	mFirstTag=None
 	mPosition=None
+	mIntId=None
 	
-	def __init__(self, day,time,address,url,city,html,ftag,pos):
+	def __init__(self, day,time,address,url,city,html,ftag,pos,intid):
 		self.mDay=day
 		self.mTime=time
 		self.mAddress=address
@@ -82,6 +83,7 @@ class MeetingInfo(object):
 		self.mCity=city
 		self.mFirstTag=ftag
 		self.mPosition=pos
+		self.mIntId=intid
 		
 class Position(object):
 	x=-1
