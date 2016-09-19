@@ -1,0 +1,22 @@
+<membership>
+
+    <users>
+        <user name="john"/>
+        <user name="charles"/>
+        <user name="peter"/>
+    </users>
+
+    <groups>
+
+        <group name="users">
+            <user name="john"/>
+            <user name="charles"/>
+        </group>
+
+        <group name="administrators">
+            <user name="peter"/>
+        </group>
+
+    </groups>
+
+</membership>
