@@ -1,0 +1,28 @@
+<!--<html>
+  <head>
+    <title>{{ title }} - microblog</title>
+  </head>
+  <body>
+      <h1>Hello, {{ username }}!</h1>
+  </body>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+<body>
+<p> an object below</p>
+<div width="800" height="400"><object width="800" height="400" data=""></object></div>
+
+<form method="post" action="/formreturn"> 
+  Is this a meeting?
+  <input type="radio" name="yes" value="Yes">Yes<br>
+  <input type="radio" name="yes" value="No">No<br>
+  
+  Time: <input type="text" name="time" value="{{time}}"><br>
+  Day: <input type="text" name="day" value="{{day}}"><br>
+  Address: <input type="text" name="address" value="{{address}}"><br>
+  
+  <input type="submit" name="submit" value="Submit">  
+</form>
+</body>
+</html>
