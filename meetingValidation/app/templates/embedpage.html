@@ -1,0 +1,62 @@
+
+{% block body %}
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type=text/javascript>
+			$(function()
+      {
+        console.log("hello");
+			  $('a#process_input').bind('click', function() {
+				$.getJSON('/background_process', {
+				  proglang: $('input[name="proglang"]').val(),
+				}, function(data) {
+          console.log("hello");
+				  $("#result").text(data.result);
+				});
+				return false;
+			  });
+        var cnt=$("#testobject").contents();
+        var t=document.querySelector("#testobject");
+        var htmlDocument= t.contentDocument;
+        var x = htmlDocument.getElementById("menu-item-3645");
+        console.log(htmlDocument);
+
+        var a = document.getElementById("testobject");
+	// Get the SVG document inside the Object tag
+	var svgDoc = a.contentDocument;
+	// Get one of the SVG items by ID;
+	var svgItem = svgDoc.getElementById("menu-item-3645");
+  console.log(svgItem);
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class='container'>
+		<h3>Help Us Validate a Meeting</h3>
+    <div>
+      <table>
+        <tr>
+          <td>
+            <div id="testdiv">
+              <object id="testobject" type="text/html" data="{{url}}" width="800px" height="600px" style="overflow:auto;border:5px ridge blue">
+              </object>
+            </div>
+          </td>
+          <td>Is this a meeting?<br>
+            <input type="radio" name="ymeeting" value="male"> Yes<br>
+            <input type="radio" name="nmeeting" value="female"> No<br>
+
+
+          </td>
+        </tr>
+      </table>
+    </div>
+			<form>
+				<input type=text size=5 name=proglang>
+				<a href=# id=process_input><button class='btn btn-default'>Submit</button></a>
+			</form>
+		<p id=result></p>
+		</div>
+	</body>
+{% endblock %}

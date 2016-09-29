@@ -1,0 +1,44 @@
+<!--<html>
+  <head>
+    <title>{{ title }} - microblog</title>
+  </head>
+  <body>
+      <h1>Hello, {{ username }}!</h1>
+  </body>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+<body>
+<p> an object below</p>
+<div width="800" height="400">
+<img src= {{ url_for('static', filename = 'images/meetingScreenshot.png') }} width="1000" height="500" alt="meeting" title="meeting" border="0">
+</div>
+<form method="get" action="/Formreturn">
+  Is this a meeting?<br>
+  <input type="radio" name="yes" value="Yes">Yes<br>
+  <input type="radio" name="yes" value="No">No<br>
+<div id="meetingdetails" style="display:none">
+  Time: <input type="text" name="time" value="{{time}}"><br>
+  Day: <input type="text" name="day" value="{{day}}"><br>
+  Address: <input type="text" name="address" value="{{address}}"><br>
+
+  <input type="submit" name="submit" value="Submit">
+	</div>
+</form>
+</body>
+<script type=text/javascript>
+$("form input:radio").change(function (){
+	console.log("change");
+if ($(this).val() === 'Yes') {
+	$('#meetingdetails').show();
+} else if ($(this).val() === 'No') {
+	$('#meetingdetails').hide();
+}
+});
+</script>
+</html>
